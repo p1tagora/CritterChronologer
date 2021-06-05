@@ -17,8 +17,8 @@ public class PetService {
         return petRepository.findById(id).orElse(null);
     }
 
-    public void savePet(Pet pet){
-        petRepository.save(pet);
+    public Pet savePet(Pet pet){
+        return petRepository.save(pet);
     }
 
     public List<Pet> getPets() {
