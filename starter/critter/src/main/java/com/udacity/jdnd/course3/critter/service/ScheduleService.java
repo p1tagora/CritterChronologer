@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ScheduleService {
@@ -60,6 +62,10 @@ public class ScheduleService {
     public List<Schedule> getSchedulesByCustomer(Long customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         List<Pet> pets = customer.getPets();
-        return scheduleRepository.findSchedulesByPets(pets);
+        List<Schedule> schedules = new ArrayList<>();
+        for (Pet p : pets) {
+            schedules.addAll(scheduleRepository.findSchedulesByPet(p));
+        }
+        return schedules;
     }
 }

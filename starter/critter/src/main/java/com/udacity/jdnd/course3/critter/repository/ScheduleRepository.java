@@ -16,7 +16,4 @@ public interface ScheduleRepository extends CrudRepository<Schedule, Long> {
 
     @Query("select s from Schedule s where :employee in elements(s.employees)")
     List<Schedule> findSchedulesByEmployee(Employee employee);
-
-    @Query("select s from Schedule s where :pets in elements(s.pets)")
-    List<Schedule> findSchedulesByPets(List<Pet> pets);
 }
