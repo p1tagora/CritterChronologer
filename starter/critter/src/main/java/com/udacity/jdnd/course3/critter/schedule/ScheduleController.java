@@ -8,7 +8,6 @@ import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.ScheduleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -107,19 +106,23 @@ public class ScheduleController {
         BeanUtils.copyProperties(schedule, scheduleDTO);
         if (scheduleDTO.getPetIds() == null) {
             List<Pet> pets = schedule.getPets();
-            List<Long> petIds = new ArrayList<>();
-            for (Pet p : pets) {
-                petIds.add(p.getId());
+            if (pets != null) {
+                List<Long> petIds = new ArrayList<>();
+                for (Pet p : pets) {
+                    petIds.add(p.getId());
+                }
+                scheduleDTO.setPetIds(petIds);
             }
-            scheduleDTO.setPetIds(petIds);
         }
         if (scheduleDTO.getEmployeeIds() == null) {
             List<Employee> employees = schedule.getEmployees();
-            List<Long> employeeIds = new ArrayList<>();
-            for (Employee e : employees) {
-                employeeIds.add(e.getId());
+            if (employees != null) {
+                List<Long> employeeIds = new ArrayList<>();
+                for (Employee e : employees) {
+                    employeeIds.add(e.getId());
+                }
+                scheduleDTO.setEmployeeIds(employeeIds);
             }
-            scheduleDTO.setEmployeeIds(employeeIds);
         }
 
         return scheduleDTO;

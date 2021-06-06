@@ -3,7 +3,6 @@ package com.udacity.jdnd.course3.critter.service;
 import com.udacity.jdnd.course3.critter.data.Employee;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
-import org.apache.tomcat.jni.Local;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +23,7 @@ public class EmployeeService {
     }
 
     public Employee getEmployee(Long employeeId) {
-        return employeeRepository.findById(employeeId).orElse(null);
+        return employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
     }
 
     public List<Employee> getAllEmployees() {
@@ -33,7 +31,7 @@ public class EmployeeService {
     }
     
     public Employee setAvailability(Set<DayOfWeek> daysAvailable, Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
         employee.setDaysAvailable(daysAvailable);
         return employeeRepository.save(employee);
     }

@@ -27,8 +27,10 @@ public class PetController {
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
         Pet pet = petService.savePet(convertPetDTOtoPet(petDTO));
-        Customer customer = customerService.getCustomer(pet.getCustomer().getId());
-        customerService.addPet(pet.getId(), customer.getId());
+        if (pet.getCustomer() != null) {
+            Customer customer = customerService.getCustomer(pet.getCustomer().getId());
+            customerService.addPet(pet.getId(), customer.getId());
+        }
         return convertPetToPetDTO(pet);
     }
 
@@ -59,8 +61,6 @@ public class PetController {
         Pet pet = new Pet();
         BeanUtils.copyProperties(petDTO, pet);
         Customer customer = customerService.getCustomer(petDTO.getOwnerId());
-        /*TODO this should maybe be moved in a different package, as I am breaking the separation of concerns here
-        *  by accessing the Pet Entity directly from the controller */
         pet.setCustomer(customer);
         return pet;
     }
@@ -68,7 +68,9 @@ public class PetController {
     private PetDTO convertPetToPetDTO(Pet pet) {
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
-        petDTO.setOwnerId(pet.getCustomer().getId());
+        if (pet.getCustomer() != null) {
+            petDTO.setOwnerId(pet.getCustomer().getId());
+        }
         return petDTO;
     }
 }

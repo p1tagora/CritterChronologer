@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ScheduleService {
@@ -32,7 +30,7 @@ public class ScheduleService {
     private CustomerRepository customerRepository;
 
     public Schedule getSchedule(Long scheduleId) {
-        return scheduleRepository.findById(scheduleId).orElse(null);
+        return scheduleRepository.findById(scheduleId).orElseThrow(ScheduleNotFoundException::new);
     }
 
     public List<Schedule> getAllSchedules() {
@@ -40,27 +38,27 @@ public class ScheduleService {
     }
 
     public Schedule saveSchedule(Schedule schedule) {
-        if (schedule.getPets() == null) {
-            schedule.setPets(new ArrayList<>());
-        }
-        if (schedule.getEmployees() == null) {
-            schedule.setEmployees(new ArrayList<>());
+        if (schedule.getPets() == null
+                || schedule.getEmployees() == null
+                || schedule.getDate() == null
+                || schedule.getActivities() == null) {
+            throw new InvalidNewScheduleException();
         }
         return scheduleRepository.save(schedule);
     }
 
     public List<Schedule> getSchedulesByPet(Long petId) {
-        Pet pet = petRepository.findById(petId).orElse(null);
+        Pet pet = petRepository.findById(petId).orElseThrow(PetNotFoundException::new);
         return scheduleRepository.findSchedulesByPet(pet);
     }
 
     public List<Schedule> getSchedulesByEmployee(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
         return scheduleRepository.findSchedulesByEmployee(employee);
     }
 
     public List<Schedule> getSchedulesByCustomer(Long customerId) {
-        Customer customer = customerRepository.findById(customerId).orElse(null);
+        Customer customer = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
         List<Pet> pets = customer.getPets();
         List<Schedule> schedules = new ArrayList<>();
         for (Pet p : pets) {

@@ -19,7 +19,7 @@ public class PetService {
     private CustomerRepository customerRepository;
 
     public Pet getPet(Long id) {
-        return petRepository.findById(id).orElse(null);
+        return petRepository.findById(id).orElseThrow(PetNotFoundException::new);
     }
 
     public Pet savePet(Pet pet){
@@ -31,7 +31,7 @@ public class PetService {
     }
 
     public List<Pet> getPetsByOwner(Long owner_id) {
-        Customer customer = customerRepository.findById(owner_id).orElse(null);
+        Customer customer = customerRepository.findById(owner_id).orElseThrow(CustomerNotFoundException::new);
         return Lists.newArrayList(petRepository.findAllByCustomer(customer));
     }
 }

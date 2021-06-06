@@ -20,7 +20,7 @@ public class CustomerService {
     private PetRepository petRepository;
 
     public Customer getCustomer(Long customerId) {
-        return customerRepository.findById(customerId).orElse(null);
+        return customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
     }
 
     public List<Customer> getAllCustomers() {
@@ -35,13 +35,13 @@ public class CustomerService {
     }
 
     public Customer getCustomerByPetId(Long petId){
-        return customerRepository.findCustomerByPet(petRepository.findById(petId).orElse(null));
+        return customerRepository.findCustomerByPet(petRepository.findById(petId).orElseThrow(PetNotFoundException::new));
     }
 
     public Customer addPet(Long petId, Long customerId) {
-        Customer customer = customerRepository.findById(customerId).orElse(null);
+        Customer customer = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
         List<Pet> pets = customer.getPets();
-        Pet pet = petRepository.findById(petId).orElse(null);
+        Pet pet = petRepository.findById(petId).orElseThrow(PetNotFoundException::new);
         pets.add(pet);
         customer.setPets(pets);
         return customerRepository.save(customer);
