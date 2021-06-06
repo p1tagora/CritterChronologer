@@ -1,6 +1,5 @@
 package com.udacity.jdnd.course3.critter.repository;
 
-import com.udacity.jdnd.course3.critter.data.Customer;
 import com.udacity.jdnd.course3.critter.data.Employee;
 import com.udacity.jdnd.course3.critter.data.Pet;
 import com.udacity.jdnd.course3.critter.data.Schedule;
