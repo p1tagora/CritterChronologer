@@ -30,11 +30,9 @@ public class EmployeeService {
         return Lists.newArrayList(employeeRepository.findAll());
     }
     
-    public void setAvailability(Set<DayOfWeek> daysAvailable, Long employeeId) {
-        Set<LocalDate> convertedDaysAvailable = new HashSet<>();
-        for (DayOfWeek d : daysAvailable) {
-            convertedDaysAvailable.add(LocalDate.from(d));
-        }
-        employeeRepository.setDaysAvailable(convertedDaysAvailable, employeeId);
+    public Employee setAvailability(Set<DayOfWeek> daysAvailable, Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        employee.setDaysAvailable(daysAvailable);
+        return employeeRepository.save(employee);
     }
 }

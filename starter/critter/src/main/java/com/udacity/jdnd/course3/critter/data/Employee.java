@@ -10,6 +10,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ public class Employee extends Person{
     @ElementCollection
     private Set<EmployeeSkill> skills;
 
+    @Enumerated(EnumType.STRING)
     @ElementCollection
-    private Set<LocalDate> daysAvailable;
+    private Set<DayOfWeek> daysAvailable;
 }
