@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PetRepository extends CrudRepository<Pet, Long> {
-    @Query("select p from Pet p where p.customer = :customerId")
-    List<Pet> findAllByCustomerId(Long customerId);
+    @Query("select p from Pet p where p.customer = :customer")
+    List<Pet> findAllByCustomer(Customer customer);
 }

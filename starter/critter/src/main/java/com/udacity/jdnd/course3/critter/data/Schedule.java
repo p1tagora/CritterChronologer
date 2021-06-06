@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Schedule {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany
